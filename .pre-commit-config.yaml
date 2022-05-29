@@ -1,16 +1,4 @@
 repos:
-  - repo: https://github.com/aorumbayev/pydantic-to-schema
-    rev: "0.0.1"
-    hooks:
-      - id: pydantic-to-schema
-        verbose: true
-        args:
-          [
-            "--input",
-            "pydantic_jsonschema_auto_completion",
-            "--output",
-            "app-config-schema.json",
-          ]
   - repo: https://github.com/psf/black
     rev: 22.3.0
     hooks:
@@ -22,8 +10,22 @@ repos:
         name: isort
   - repo: local
     hooks:
-      - id: test-script
+      - id: requirements
         verbose: true
-        name: test script
+        name: Requirements
+        language: python
+        entry: poetry export --format=requirements.txt --without-hashes --output=requirements.txt
+        pass_filenames: false
+      - id: lock
+        verbose: true
+        name: lock
+        language: python
+        entry: poetry lock
+        pass_filenames: false
+  - repo: local
+    hooks:
+      - id: gen-jsonschema
+        name: gen-jsonschema
         language: system
-        entry: ls > tmp.log
+        entry: poetry run python util.py
+        pass_filenames: false
