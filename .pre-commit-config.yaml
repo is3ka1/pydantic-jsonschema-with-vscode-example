@@ -1,0 +1,29 @@
+repos:
+  - repo: https://github.com/aorumbayev/pydantic-to-schema
+    rev: "0.0.1"
+    hooks:
+      - id: pydantic-to-schema
+        verbose: true
+        args:
+          [
+            "--input",
+            "pydantic_jsonschema_auto_completion",
+            "--output",
+            "app-config-schema.json",
+          ]
+  - repo: https://github.com/psf/black
+    rev: 22.3.0
+    hooks:
+      - id: black
+  - repo: https://github.com/pycqa/isort
+    rev: 5.10.1
+    hooks:
+      - id: isort
+        name: isort
+  - repo: local
+    hooks:
+      - id: test-script
+        verbose: true
+        name: test script
+        language: system
+        entry: ls > tmp.log
